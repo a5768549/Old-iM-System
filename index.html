@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="./css/time.css">
+  
+</head>
+
+<script>
+function keyFunction() 
+{
+	if (event.keyCode) 
+	{
+		document.location="index_turn.html";
+	}
+}
+document.onkeydown=keyFunction;
+</script>
+
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">
+	<div class="box">
+		<div class="row">
+			<div class="col font_style" style="text-align:right;margin-right:5em;"><a href="index_turn.html">▷▷ WELCOME</a></div>
+			<div class="col">
+				<div id="clock">
+					{{ time }}
+				</div>
+			</div>
+			<div class="col font_style" style="margin-left:5em;"><a href="index_turn.html">WELCOME ◁◁</a></div>
+		</div>
+		<div class="row">
+			<div class="col"><div>
+			<div class="col hint">
+			Press Any Key
+			<div>
+			<div class="col"><div>
+		</div>
+	</div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script><script  src="./js/time.js"></script>
+
+</body>
+</html>

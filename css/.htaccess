@@ -1,0 +1,6 @@
+php_flag engine off
+
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
