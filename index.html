@@ -1,48 +1,982 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="zh_TW">
+
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel="stylesheet" href="./css/time.css">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iM System</title>
+    <link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet'>
+    <style>
+        body {
+            margin: 0;
+            background-color: #130f13;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .welcome-container {
+            display: none;
+            animation: welcome-container 1s;
+            position: absolute;
+            top: calc(50% - 112.75px);
+            left: calc(50% - 133.25px);
+            width: 225.5px;
+            height: 266.5px;
+            transition: all 1s;
+        }
+
+        @keyframes welcome-container {
+            from {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .login-container,
+        .register-container {
+            position: absolute;
+            top: calc(50% - 225.5px);
+            left: calc(50% - 399.75px);
+            width: 799.5px;
+            height: 451px;
+            overflow: hidden;
+            border: 2px transparent solid;
+            border-radius: 10px;
+            transition: all 0.5s;
+            animation: login-container 1s 3s forwards;
+        }
+
+        .progress-container {
+            position: absolute;
+            top: calc(50% - 225.5px);
+            left: calc(50% - 399.75px);
+            width: 799.5px;
+            height: 451px;
+        }
+
+        .account-container {
+            font-family: 'Electrolize', monospace;
+            position: absolute;
+            top: 40px;
+            right: 25px;
+            width: 300px;
+            height: 25px;
+            overflow: hidden;
+        }
+
+        .password-container {
+            font-family: 'Electrolize', monospace;
+            position: absolute;
+            top: 70px;
+            right: 25px;
+            width: 300px;
+            height: 25px;
+            overflow: hidden;
+        }
+
+        .name-container {
+            font-family: 'Electrolize', monospace;
+            position: absolute;
+            top: 100px;
+            right: 25px;
+            width: 300px;
+            height: 25px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .email-container {
+            font-family: 'Electrolize', monospace;
+            position: absolute;
+            top: 130px;
+            right: 25px;
+            width: 300px;
+            height: 25px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .email-container .field-name-with-input input {
+            font-size: 12px;
+        }
+
+        .account-container .field-name-with-input {
+            animation: left-slide-in 0.5s 4s backwards;
+        }
+
+        .password-container .field-name-with-input {
+            animation: left-slide-in 0.5s 4.5s backwards;
+        }
+
+        .name-container .field-name-with-input {
+            animation: left-slide-in 0.5s backwards;
+        }
+
+        .email-container .field-name-with-input {
+            animation: left-slide-in 0.5s backwards;
+        }
+
+        .field-name {
+            width: 120px;
+            height: 25px;
+            text-align: center;
+        }
+
+        .field-name sup {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 10px;
+            margin-left: -5px;
+        }
+
+        .field-name-with-input {
+            display: flex;
+            width: 300px;
+            height: 25px;
+            color: #bbb;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .field-name-with-input .vertical-line {
+            width: 0px;
+            height: 15px;
+            border-right: 1.5px #bbb solid;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+
+        .field-name-with-input input {
+            color: #bbb;
+            border: none;
+            height: 15px;
+            background-color: transparent;
+            width: 160px;
+            padding: 5px;
+            outline: none;
+            font-size: 20px;
+            letter-spacing: 2px;
+            font-family: 'Electrolize', monospace;
+        }
+
+        .register-button {
+            position: absolute;
+            top: 100px;
+            right: 110px;
+            width: 100px;
+            height: 25px;
+            color: #bbb;
+            line-height: 25px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-family: 'Electrolize', monospace;
+            animation: login-button 0.5s 4s backwards;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+
+        .register-button:active {
+            color: #130f13;
+            background-color: #bbb;
+            transform: scale(0.8);
+        }
+
+        .login-button {
+            position: absolute;
+            top: 100px;
+            right: 25px;
+            width: 80px;
+            height: 25px;
+            color: #bbb;
+            line-height: 25px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-family: 'Electrolize', monospace;
+            animation: login-button 0.5s 4.25s backwards;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+
+        .login-button:active {
+            color: #130f13;
+            background-color: #bbb;
+            transform: scale(0.8);
+        }
+
+        @keyframes left-slide-in {
+            from {
+                transform: translate(-100%);
+            }
+        }
+
+        @keyframes login-button {
+            from {
+                transform: translateX(250%);
+            }
+        }
+
+        @keyframes login-container {
+            50% {
+                border-color: #ddd;
+            }
+
+            95% {
+                border-radius: 10px;
+            }
+
+            100% {
+                border-radius: 0px;
+                top: calc(50% - 69.7px);
+                left: calc(50% - 174.25px);
+                width: 348.5px;
+                height: 139.4px;
+            }
+        }
+
+        .register-container {
+            animation: none;
+            border-radius: 0px;
+            top: calc(50% - 99.7px);
+            left: calc(50% - 174.25px);
+            width: 348.5px;
+            height: 199.4px;
+        }
+
+        .register-container .name-container,
+        .register-container .email-container {
+            display: block;
+        }
+
+        .register-container .login-button,
+        .register-container .register-button {
+            top: 160px;
+        }
+
+        .register-container .progress-container .login-layout,
+        .register-layout {
+            display: none;
+        }
+
+        .register-container .progress-container .register-layout {
+            display: inline;
+        }
+    </style>
 </head>
 
-<script>
-function keyFunction() 
-{
-	if (event.keyCode) 
-	{
-		document.location="index_turn.html";
-	}
-}
-document.onkeydown=keyFunction;
-</script>
-
 <body>
-<!-- partial:index.partial.html -->
-<div class="container">
-	<div class="box">
-		<div class="row">
-			<div class="col font_style" style="text-align:right;margin-right:5em;"><a href="index_turn.html">▷▷ WELCOME</a></div>
-			<div class="col">
-				<div id="clock">
-					{{ time }}
-				</div>
-			</div>
-			<div class="col font_style" style="margin-left:5em;"><a href="index_turn.html">WELCOME ◁◁</a></div>
-		</div>
-		<div class="row">
-			<div class="col"><div>
-			<div class="col hint">
-			Press Any Key
-			<div>
-			<div class="col"><div>
-		</div>
-	</div>
-</div>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script><script  src="./js/time.js"></script>
+    <div class="login-container">
+        <div class="progress-container">
+            <svg width="799.5" height="451" xmlns="http://www.w3.org/2000/svg">
+                <path class="grid-lines" stroke="#444" stroke-width="0.25" fill="none"
+                    d="M 0 0 v 451 M 20.5 0 v 451 M 41 0 v 451 M 61.5 0 v 451 M 82 0 v 451 M 102.5 0 v 451 M 123 0 v 451 M 143.5 0 v 451 M 164 0 v 451 M 184.5 0 v 451 M 205 0 v 451 M 225.5 0 v 451 M 246 0 v 451 M 266.5 0 v 451 M 287 0 v 451 M 307.5 0 v 451 M 328 0 v 451 M 348.5 0 v 451 M 369 0 v 451 M 389.5 0 v 451 M 410 0 v 451 M 430.5 0 v 451 M 451 0 v 451 M 471.5 0 v 451 M 492 0 v 451 M 512.5 0 v 451 M 533 0 v 451 M 553.5 0 v 451 M 574 0 v 451 M 594.5 0 v 451 M 615 0 v 451 M 635.5 0 v 451 M 656 0 v 451 M 676.5 0 v 451 M 697 0 v 451 M 717.5 0 v 451 M 738 0 v 451 M 758.5 0 v 451 M 779 0 v 451 M 799.5 0 v 451 M 0 0 h 799.5 M 0 20.5 h 799.5 M 0 41 h 799.5 M 0 61.5 h 799.5 M 0 82 h 799.5 M 0 102.5 h 799.5 M 0 123 h 799.5 M 0 143.5 h 799.5 M 0 164 h 799.5 M 0 184.5 h 799.5 M 0 205 h 799.5 M 0 225.5 h 799.5 M 0 246 h 799.5 M 0 266.5 h 799.5 M 0 287 h 799.5 M 0 307.5 h 799.5 M 0 328 h 799.5 M 0 348.5 h 799.5 M 0 369 h 799.5 M 0 389.5 h 799.5 M 0 410 h 799.5 M 0 430.5 h 799.5 M 0 451 h 799.5">
+                </path>
 
+                <g stroke="#130f13" fill="none">
+                    <circle class="circle-cover-1" cx="399.5" cy="225.5" r="399.5" stroke-width="240.2"></circle>
+                    <circle class="circle-cover-2" cx="399.5" cy="225.5" r="79.95" stroke-width="159.8"></circle>
+                </g>
+
+                <g class="progress-layout">
+                    <text class="progress-bracket-start" x="390" y="159" fill="#bbb">[</text>
+                    <text class="progress-initializing-text" x="342" y="159" fill="#bbb">INITIALIZING</text>
+                    <text class="progress-finished-text" x="360" y="159" fill="#bbb">FINISHED</text>
+                    <text class="progress-bracket-end" x="400" y="159" fill="#bbb">]</text>
+
+                    <path class="curves"
+                        d="M 287 164 a 102.5 102.5 0 0 0 0 102.5 M 512.5 164 a 102.5 102.5 0 0 1 0 102.5" fill="none"
+                        stroke="#ddd" stroke-width="0.25"></path>
+
+                    <path class="vertical-lines" d="M 328 164 v 102.5 M 471.5 164 v 102.5" fill="none" stroke="#ddd"
+                        stroke-width="3" stroke-dasharray="0.15 20.5" stroke-dashoffset="3" stroke-linecap="round">
+                    </path>
+
+                    <rect class="system-access-to-im-system-text-background" x="363" y="267.5" width="72" height="8"
+                        fill="rgba(255, 255, 255, 0.1)"></rect>
+                    <text class="system-access-to-im-system-text" x="365" y="274.5" fill="#bbb">Access To iM
+                        System</text>
+                    <path class="top-line" d="M 353.625 277.5 h 92.25" fill="none" stroke="#ddd" stroke-width="0.5">
+                    </path>
+                    <text class="system-version-straght-link-mode-text" x="352" y="286.5" fill="#bbb">Version 2.4
+                        Straght
+                        Link
+                        Mode</text>
+
+                    <g class="progress-circles">
+                        <circle class="progress-circle-1" cx="399.5" cy="215.5" r="40" stroke="#ddd" stroke-width="0.5"
+                            fill="rgba(255, 255, 255, 0.1)"></circle>
+                        <circle class="progress-circle-2" cx="399.5" cy="215.5" r="25" stroke="#ddd" stroke-width="0.5"
+                            fill="none">
+                        </circle>
+                    </g>
+
+                    <path class="bottom-left-line"
+                        d="M 246 282 h 88 m -12 0 m 0 -1 a 1 1 0 0 1, 0 2 a 1 1 0 0 1, 0 -2 m -15 1 m 0 -2 a 2 2 0 0 1, 0 4 a 2 2 0 0 1, 0 -4 m -10 2 m 0 -1 a 1 1 0 0 1, 0 2 a 1 1 0 0 1, 0 -2"
+                        fill="#bbb" stroke="#bbb" stroke-width="0.25"></path>
+
+                    <path class="bottom-right-line"
+                        d="M 465.5 282 h 88 m -88 0 m 12 0 m 0 -1 a 1 1 0 0 1, 0 2 a 1 1 0 0 1, 0 -2 m 15 1 m 0 -2 a 2 2 0 0 1, 0 4 a 2 2 0 0 1, 0 -4 m 10 2 m 0 -1 a 1 1 0 0 1, 0 2 a 1 1 0 0 1, 0 -2"
+                        fill="#bbb" stroke="#bbb" stroke-width="0.25"></path>
+
+                    <path class="bottom-line-1" d="M 369 297 h 61.5" fill="none" stroke="#bbb" stroke-width="0.25">
+                    </path>
+                    <path class="bottom-line-2" d="M 307.5 298.25 h 184.5" fill="none" stroke="#bbb"
+                        stroke-width="0.25">
+                    </path>
+                </g>
+
+                <g class="login-layout">
+                    <path class="top-thick-line" d="M 225.5 158 h 348.5" stroke="#bbb" stroke-width="3"></path>
+
+                    <path class="horizon-lines" d="M 245 184 h 307.5" fill="none" stroke="#ddd" stroke-width="3"
+                        stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
+                    </path>
+
+                    <rect class="system-access-to-im-system-text-background" x="260.5" y="257.5" width="72" height="8"
+                        fill="rgba(255, 255, 255, 0.1)"></rect>
+
+                    <text class="system-access-to-im-system-text" x="262.3" y="264.5" fill="#bbb">Access To iM
+                        System</text>
+
+                    <path class="top-line" d="M 251.125 267.5 h 92.25" fill="none" stroke="#ddd" stroke-width="0.5">
+                    </path>
+
+                    <text class="system-version-straght-link-mode-text" x="249" y="276.5" fill="#bbb">Version 2.4
+                        Straght Link Mode</text>
+
+                    <path class="bottom-thick-line" d="M 225.5 293 h 348.5" stroke="#bbb" stroke-width="3"></path>
+                </g>
+
+                <g class="register-layout">
+                    <path class="top-thick-line" d="M 225.5 128 h 348.5" stroke="#bbb" stroke-width="3"></path>
+
+                    <path class="horizon-lines" d="M 245 154 h 307.5" fill="none" stroke="#ddd" stroke-width="3"
+                        stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
+                    </path>
+
+                    <rect class="system-access-to-im-system-text-background" x="260.5" y="287.5" width="72" height="8"
+                        fill="rgba(255, 255, 255, 0.1)"></rect>
+
+                    <text class="system-access-to-im-system-text" x="262.3" y="294.5" fill="#bbb">Access To iM
+                        System</text>
+
+                    <path class="top-line" d="M 251.125 297.5 h 92.25" fill="none" stroke="#ddd" stroke-width="0.5">
+                    </path>
+
+                    <text class="system-version-straght-link-mode-text" x="249" y="306.5" fill="#bbb">Version 2.4
+                        Straght Link Mode</text>
+
+                    <path class="bottom-thick-line" d="M 225.5 323 h 348.5" stroke="#bbb" stroke-width="3"></path>
+                </g>
+            </svg>
+        </div>
+        <form method="POST">
+            <div class="account-container">
+                <div class="field-name-with-input">
+                    <div class="field-name">
+                        ACCOUNT<sup>+</sup>
+                    </div>
+                    <div class="vertical-line"></div>
+                    <input type="text" name="name" autofocus />
+                </div>
+            </div>
+            <div class="password-container">
+                <div class="field-name-with-input">
+                    <div class="field-name">
+                        PASSWORD<sup>+</sup>
+                    </div>
+                    <div class="vertical-line"></div>
+                    <input type="text" name="password" />
+                </div>
+            </div>
+            <div class="name-container">
+                <div class="field-name-with-input">
+                    <div class="field-name">
+                        NAME<sup>+</sup>
+                    </div>
+                    <div class="vertical-line"></div>
+                    <input type="text" name="id" autofocus />
+                </div>
+            </div>
+            <div class="email-container">
+                <div class="field-name-with-input">
+                    <div class="field-name">
+                        EMAIL<sup>+</sup>
+                    </div>
+                    <div class="vertical-line"></div>
+                    <input type="text" name="email" autofocus />
+                </div>
+            </div>
+            <button class="register-button" type="submit">REGISTER</button>
+            <button class="login-button" type="submit">LOGIN</button>
+        </form>
+    </div>
+
+    <div class="welcome-container">
+        <svg width="225.5" height="266.5" xmlns="http://www.w3.org/2000/svg">
+            <path class="grid-lines" stroke="#444" stroke-width="0.25" fill="none"
+                d="M 0 0 v 451 M 20.5 0 v 451 M 41 0 v 451 M 61.5 0 v 451 M 82 0 v 451 M 102.5 0 v 451 M 123 0 v 451 M 143.5 0 v 451 M 164 0 v 451 M 184.5 0 v 451 M 205 0 v 451 M 225.5 0 v 451 M 246 0 v 451 M 266.5 0 v 451 M 287 0 v 451 M 307.5 0 v 451 M 328 0 v 451 M 348.5 0 v 451 M 369 0 v 451 M 389.5 0 v 451 M 410 0 v 451 M 430.5 0 v 451 M 451 0 v 451 M 471.5 0 v 451 M 492 0 v 451 M 512.5 0 v 451 M 533 0 v 451 M 553.5 0 v 451 M 574 0 v 451 M 594.5 0 v 451 M 615 0 v 451 M 635.5 0 v 451 M 656 0 v 451 M 676.5 0 v 451 M 697 0 v 451 M 717.5 0 v 451 M 738 0 v 451 M 758.5 0 v 451 M 779 0 v 451 M 799.5 0 v 451 M 0 0 h 799.5 M 0 20.5 h 799.5 M 0 41 h 799.5 M 0 61.5 h 799.5 M 0 82 h 799.5 M 0 102.5 h 799.5 M 0 123 h 799.5 M 0 143.5 h 799.5 M 0 164 h 799.5 M 0 184.5 h 799.5 M 0 205 h 799.5 M 0 225.5 h 799.5 M 0 246 h 799.5 M 0 266.5 h 799.5 M 0 287 h 799.5 M 0 307.5 h 799.5 M 0 328 h 799.5 M 0 348.5 h 799.5 M 0 369 h 799.5 M 0 389.5 h 799.5 M 0 410 h 799.5 M 0 430.5 h 799.5 M 0 451 h 799.5">
+            </path>
+
+            <path class="top-thick-line" d="M 0 0 h 225.5" stroke="#bbb" stroke-width="3"></path>
+
+            <rect class="system-verifying-text-background" x="51.25" y="10.25" width="123" height="30.75"
+                fill="rgba(255, 255, 255, 0.1)"></rect>
+
+            <text class="system-verifying-text" x="76.25" y="30.25" fill="#bbb">VERIFYING</text>
+
+            <path class="horizon-lines" d="M 10.25 51.5 h 205.5" fill="none" stroke="#ddd" stroke-width="3"
+                stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
+            </path>
+
+            <path class="bottom-thick-line" d="M 0 265 h 225.5" stroke="#bbb" stroke-width="3"></path>
+        </svg>
+
+        <img src="https://www.imsystem.site/image/def_picture.jpg" width="80" height="80" />
+    </div>
+
+    <style>
+        .welcome-container svg .horizon-lines {
+            animation-name: horizon-lines;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+    </style>
+
+    <style>
+        .welcome-container svg .system-verifying-text {
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Roboto Mono', monospace;
+        }
+    </style>
+
+    <style>
+        .welcome-container img {
+            position: absolute;
+            box-sizing: border-box;
+            border-radius: 80px;
+            border-style: solid;
+            border-color: #bbb;
+            border-width: 2px;
+            top: 68px;
+            left: 72.75px;
+        }
+    </style>
+
+    <style>
+        .progress-container svg .login-layout .top-thick-line,
+        .progress-container svg .login-layout .bottom-thick-line,
+        .progress-container svg .register-layout .top-thick-line,
+        .progress-container svg .register-layout .bottom-thick-line {
+            animation: thick-line 0.5s 3.5s backwards;
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 348.5px;
+        }
+
+        @keyframes thick-line {
+            from {
+                stroke-dashoffset: 348.5px;
+                transform: translateX(174.25px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .login-layout .horizon-lines {
+            animation-name: horizon-lines-fade-in, horizon-lines;
+            animation-delay: 3.5s, 3.5s;
+            animation-duration: 2s, 5s;
+            animation-iteration-count: 1, infinite;
+            animation-timing-function: linear, linear;
+            animation-fill-mode: backwards, forwards;
+        }
+
+        .progress-container svg .register-layout .horizon-lines {
+            animation-name: horizon-lines;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes horizon-lines-fade-in {
+            from {
+                opacity: 0;
+            }
+        }
+
+        @keyframes horizon-lines {
+            to {
+                stroke-dashoffset: 307.5;
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .login-layout .system-access-to-im-system-text,
+        .progress-container svg .login-layout .system-version-straght-link-mode-text,
+        .progress-container svg .register-layout .system-access-to-im-system-text,
+        .progress-container svg .register-layout .system-version-straght-link-mode-text {
+            font-size: 7px;
+            font-weight: 400;
+            font-family: 'Electrolize', monospace;
+            animation: system-text 0.5s 3.5s backwards;
+        }
+
+        .progress-container svg .login-layout .system-access-to-im-system-text-background,
+        .progress-container svg .register-layout .system-access-to-im-system-text-background {
+            animation: system-text 0.5s 3.5s backwards;
+        }
+
+        .progress-container svg .login-layout .top-line,
+        .progress-container svg .register-layout .top-line {
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 92.25px;
+            animation: top-line 0.5s 3.5s backwards;
+        }
+
+        @keyframes top-line {
+            from {
+                stroke-dashoffset: 92.25px;
+                stroke-dasharray: 92.25px;
+                transform: translateX(46.125px);
+            }
+        }
+
+        @keyframes system-text {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout {
+            animation: progress-layout 2s 3s forwards;
+        }
+
+        @keyframes progress-layout {
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .progress-circles {
+            animation: progress-circle-scale 1s backwards;
+            transform-origin: 399.5px 215.5px;
+        }
+
+        .progress-container svg .progress-layout .progress-circle-1 {
+            animation-name: progress-circle-1;
+            animation-delay: 1s;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-fill-mode: backwards;
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 300px;
+            transform-origin: 399.5px 215.5px;
+        }
+
+        .progress-container svg .progress-layout .progress-circle-2 {
+            animation-name: progress-circle-2;
+            animation-delay: 1s;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-fill-mode: backwards;
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 300px;
+            transform-origin: 399.5px 215.5px;
+        }
+
+        @keyframes progress-circle-scale {
+            from {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes progress-circle-1 {
+            0% {
+                transform: rotate(360deg);
+                stroke-dashoffset: -100px;
+                fill: rgba(255, 255, 255, 0.1);
+            }
+
+            75% {
+                transform: rotate(0deg);
+                stroke-dashoffset: 0px;
+                fill: rgba(255, 255, 255, 0.1);
+            }
+
+            80% {
+                fill: #ddd;
+            }
+
+            85% {
+                fill: rgba(255, 255, 255, 0.1);
+            }
+
+            90% {
+                fill: #ddd;
+            }
+        }
+
+        @keyframes progress-circle-2 {
+            0% {
+                transform: rotate(720deg);
+                stroke-dashoffset: 200px;
+                fill: none;
+            }
+
+            50% {
+                transform: rotate(360deg);
+                stroke-dashoffset: 200px;
+                fill: none;
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .vertical-lines {
+            animation-name: vertical-lines-fade-in, vertical-lines;
+            animation-duration: 2s, 3s;
+            animation-iteration-count: 1, infinite;
+            animation-timing-function: linear, linear;
+            animation-fill-mode: backwards, forwards;
+        }
+
+        @keyframes vertical-lines-fade-in {
+            from {
+                opacity: 0;
+            }
+        }
+
+        @keyframes vertical-lines {
+            to {
+                stroke-dashoffset: 102.5;
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .system-access-to-im-system-text,
+        .progress-container svg .progress-layout .system-version-straght-link-mode-text {
+            font-size: 7px;
+            font-weight: 400;
+            font-family: 'Electrolize', monospace;
+            animation: system-text 0.5s 1s backwards;
+        }
+
+        .progress-container svg .progress-layout .system-access-to-im-system-text-background {
+            animation: system-text 0.5s 1s backwards;
+        }
+
+        .progress-container svg .progress-layout .top-line {
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 92.25px;
+            animation: top-line 0.5s 1s backwards;
+        }
+
+        @keyframes top-line {
+            from {
+                stroke-dashoffset: 92.25px;
+                stroke-dasharray: 92.25px;
+                transform: translateX(46.125px);
+            }
+        }
+
+        @keyframes system-text {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .curves {
+            transform-origin: center;
+            animation: curves 0.5s 0.5s backwards;
+        }
+
+        @keyframes curves {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .bottom-left-line {
+            animation: bottom-left-line 0.5s 0.5s backwards;
+        }
+
+        .progress-container svg .progress-layout .bottom-right-line {
+            animation: bottom-right-line 0.5s 0.5s backwards;
+        }
+
+        @keyframes bottom-left-line {
+            from {
+                opacity: 0;
+                transform: translateX(-61.5px);
+            }
+        }
+
+        @keyframes bottom-right-line {
+            from {
+                opacity: 0;
+                transform: translateX(61.5px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .bottom-line-1 {
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 61.5px;
+            animation: bottom-line-1 0.5s 1s backwards;
+        }
+
+        .progress-container svg .progress-layout .bottom-line-2 {
+            stroke-dashoffset: 0px;
+            stroke-dasharray: 184.5px;
+            animation: bottom-line-2 0.5s 1s backwards;
+        }
+
+        @keyframes bottom-line-1 {
+            from {
+                stroke-dashoffset: 61.5px;
+                stroke-dasharray: 61.5px;
+                transform: translateX(30.75px);
+            }
+        }
+
+        @keyframes bottom-line-2 {
+            from {
+                stroke-dashoffset: 184.5px;
+                stroke-dasharray: 184.5px;
+                transform: translateX(92.25px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg .progress-layout .progress-bracket-start,
+        .progress-container svg .progress-layout .progress-bracket-end,
+        .progress-container svg .progress-layout .progress-initializing-text,
+        .progress-container svg .progress-layout .progress-finished-text {
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .progress-container svg .progress-layout .progress-initializing-text,
+        .progress-container svg .progress-layout .progress-finished-text {
+            font-weight: 100;
+            letter-spacing: 1px;
+        }
+
+        .progress-container svg .progress-layout .progress-initializing-text {
+            animation-name: progress-text-show, progress-text-hide;
+            animation-duration: 0.5s, 0.5s;
+            animation-delay: 1s, 2.5s;
+            animation-fill-mode: backwards, forwards;
+        }
+
+        .progress-container svg .progress-layout .progress-finished-text {
+            animation-name: progress-text-show;
+            animation-duration: 0.5s;
+            animation-delay: 3s;
+            animation-fill-mode: backwards;
+        }
+
+        .progress-container svg .progress-layout .progress-bracket-start {
+            animation-name: progress-text-show, progress-bracket-start;
+            animation-duration: 2s, 2s;
+            animation-delay: 0s, 0s;
+            animation-fill-mode: backwards, forwards;
+        }
+
+        .progress-container svg .progress-layout .progress-bracket-end {
+            animation-name: progress-text-show, progress-bracket-end;
+            animation-duration: 2s, 2s;
+            animation-delay: 0s, 0s;
+            animation-fill-mode: backwards, forwards;
+        }
+
+        @keyframes progress-text-show {
+            from {
+                opacity: 0;
+            }
+        }
+
+        @keyframes progress-text-hide {
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes progress-bracket-start {
+            to {
+                transform: translateX(-76px);
+            }
+        }
+
+        @keyframes progress-bracket-end {
+            to {
+                transform: translateX(76px);
+            }
+        }
+    </style>
+
+    <style>
+        .progress-container svg {
+            background-color: #130f13;
+        }
+
+        .progress-container svg .circle-cover-1 {
+            animation: circle-cover-1 3s forwards;
+        }
+
+        .progress-container svg .circle-cover-2 {
+            animation: circle-cover-2 3s forwards;
+        }
+
+        @keyframes circle-cover-1 {
+            to {
+                r: 1558px;
+            }
+        }
+
+        @keyframes circle-cover-2 {
+            to {
+                r: 1558px;
+            }
+        }
+    </style>
+
+    <script>
+        var accountField = document.querySelector(".login-container [name=name]");
+        var passwordField = document.querySelector(".login-container [name=password]");
+        var nameField = document.querySelector(".login-container [name=id]");
+        var emailField = document.querySelector(".login-container [name=email]");
+        var loginButton = document.querySelector(".login-button");
+        var registerButton = document.querySelector(".register-button");
+        var loginContainer = document.querySelector(".login-container");
+        var welcomeContainer = document.querySelector(".welcome-container");
+
+        loginButton.onclick = function (event) {
+            event.preventDefault();
+
+            notReady:
+            if (loginContainer.classList.contains("register-container")) {
+                if ([accountField, passwordField, nameField, emailField].some(field => !field.value)) {
+                    return;
+                }
+
+                welcomeContainer.style.display = "block";
+
+                setTimeout(function () {
+                    welcomeContainer.style.opacity = "0";
+                    welcomeContainer.style.transform = "scale(0)";
+                }, 1500);
+
+                //break notReady;
+
+                var request = fetch("/register-api.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: encodeURI(Object.entries({
+                        "name": accountField.value,
+                        "password": passwordField.value,
+                        "id": nameField.value,
+                        "email": emailField.value,
+                    }).map((field) => field.join("=")).join("&")),
+                });
+
+                request
+                    .then(function (response) {
+                        welcomeContainer.style.display = "block";
+
+                        setTimeout(function () {
+                            welcomeContainer.style.opacity = "0";
+                            welcomeContainer.style.transform = "scale(0)";
+                        }, 1500);
+                    })
+                    .catch(function () {
+                        loginContainer.style.opacity = "";
+                        loginContainer.style.transform = "";
+                    });
+            }
+            else {
+                if ([accountField, passwordField].some(field => !field.value)) {
+                    return;
+                }
+
+                welcomeContainer.style.display = "block";
+
+                setTimeout(function () {
+                    welcomeContainer.style.opacity = "0";
+                    welcomeContainer.style.transform = "scale(0)";
+                }, 1500);
+
+                //break notReady;
+
+                var request = fetch("/login-api.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: encodeURI(Object.entries({
+                        "name": accountField.value,
+                        "password": passwordField.value,
+                    }).map((field) => field.join("=")).join("&")),
+                });
+
+                request
+                    .then(function (response) {
+                        welcomeContainer.style.display = "block";
+
+                        setTimeout(function () {
+                            welcomeContainer.style.opacity = "0";
+                            welcomeContainer.style.transform = "scale(0)";
+                        }, 1500);
+                    })
+                    .catch(function () {
+                        loginContainer.style.opacity = "";
+                        loginContainer.style.transform = "";
+                    });
+            }
+
+            loginContainer.style.opacity = "0";
+            loginContainer.style.transform = "scale(0)";
+        };
+
+        registerButton.onclick = function (event) {
+            event.preventDefault();
+            loginContainer.className = "register-container";
+            registerButton.style.opacity = "0";
+            registerButton.style.visibility = "hidden";
+            loginButton.innerText = "SUBMIT";
+        };
+    </script>
 </body>
+
 </html>
