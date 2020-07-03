@@ -895,7 +895,8 @@
         var loginContainer = document.querySelector(".login-container");
         var welcomeContainer = document.querySelector(".welcome-container");
         var welcomeInfoMessage = document.querySelector(".welcome-container .info-message");
-
+        var welcomeAvatar = document.querySelector(".welcome-container img");
+        
         function checkIsLoginForm() {
             return loginContainer.classList.contains("login-container");
         }
@@ -927,16 +928,18 @@
                         }
                         else {
                             welcomeInfoMessage.style.color = "";
+                            
                         }
 
-                        response.json().then(({ message }) => {
+                        response.json().then(({ message,photo_path,border_color }) => {
                             welcomeInfoMessage.innerText = message;
                             welcomeContainer.style.display = "block";
-
                             setTimeout(function () {
                                 if (response.status === 200) {
                                     welcomeContainer.style.opacity = "0";
                                     welcomeContainer.style.transform = "scale(0)";
+                                    welcomeAvatar.src = photo_path;
+                                    welcomeAvatar.borderColor = border_color;
                                 }
                                 else {
                                     loginContainer.style.opacity = "";
