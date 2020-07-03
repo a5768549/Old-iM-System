@@ -937,7 +937,7 @@
                                     welcomeContainer.style.display = "block";
                                     loginContainer.style.opacity = "0";
                                     loginContainer.style.transform = "scale(0)";
-                                    setTimeout(function(){window.location.href='/main/main.php';},3000);
+                                    setTimeout(function () { window.location.href = '/main/main.php'; }, 3000);
                                 };
 
                                 welcomeAvatar.removeAttribute("src");
@@ -994,7 +994,7 @@
                                 welcomeContainer.style.display = "block";
                                 loginContainer.style.opacity = "0";
                                 loginContainer.style.transform = "scale(0)";
-                                setTimeout(function(){window.location.href='/index.html';},3000);
+                                setTimeout(function () { window.location.href = '/index.html'; }, 3000);
                             }
                             else {
                                 welcomeInfoMessage.innerText = message;
@@ -1039,6 +1039,18 @@
 
             loginContainer.style.animation = "none";
         };
+
+        var viewWidth = 799.5;
+        var viewHeight = 451;
+        var { innerWidth, innerHeight } = window;
+        var widthRatio = innerWidth / viewWidth;
+        var heightRatio = innerHeight / viewHeight;
+        var scale = Math.max(widthRatio, heightRatio);
+
+        if (innerWidth >= viewWidth && innerHeight >= viewHeight) {
+            loginContainer.style.transform = `scale(${scale})`;
+            loginContainer.style.transformOrigin = "center";
+        }
     </script>
 </body>
 
