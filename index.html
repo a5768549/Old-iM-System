@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iM System</title>
     <link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -37,15 +38,15 @@
         .login-container,
         .register-container {
             position: absolute;
-            top: calc(50% - 225.5px);
-            left: calc(50% - 399.75px);
-            width: 799.5px;
-            height: 451px;
+            top: calc(50% - 69.7px);
+            left: calc(50% - 174.25px);
+            width: 348.5px;
+            height: 139.4px;
             overflow: hidden;
             border: 2px transparent solid;
-            border-radius: 10px;
+            border-radius: 0px;
             transition: all 0.5s;
-            animation: login-container 1s 3s forwards;
+            animation: login-container 1s 3s backwards;
         }
 
         .progress-container {
@@ -226,20 +227,20 @@
         }
 
         @keyframes login-container {
+            0% {
+                top: calc(50% - 225.5px);
+                left: calc(50% - 399.75px);
+                width: 799.5px;
+                height: 451px;
+                border-radius: 10px;
+            }
+
             50% {
                 border-color: #ddd;
             }
 
             95% {
                 border-radius: 10px;
-            }
-
-            100% {
-                border-radius: 0px;
-                top: calc(50% - 69.7px);
-                left: calc(50% - 174.25px);
-                width: 348.5px;
-                height: 139.4px;
             }
         }
 
@@ -386,7 +387,7 @@
                         ACCOUNT<sup>+</sup>
                     </div>
                     <div class="vertical-line"></div>
-                    <input type="text" name="name" autofocus />
+                    <input type="password" name="name" autofocus />
                 </div>
             </div>
             <div class="password-container">
@@ -395,7 +396,7 @@
                         PASSWORD<sup>+</sup>
                     </div>
                     <div class="vertical-line"></div>
-                    <input type="text" name="password" />
+                    <input type="password" name="password" />
                 </div>
             </div>
             <div class="name-container">
@@ -404,7 +405,7 @@
                         NAME<sup>+</sup>
                     </div>
                     <div class="vertical-line"></div>
-                    <input type="text" name="id" autofocus />
+                    <input type="text" name="id" />
                 </div>
             </div>
             <div class="email-container">
@@ -413,11 +414,11 @@
                         EMAIL<sup>+</sup>
                     </div>
                     <div class="vertical-line"></div>
-                    <input type="text" name="email" autofocus />
+                    <input type="text" name="email" />
                 </div>
             </div>
-            <button class="register-button" type="submit">REGISTER</button>
             <button class="login-button" type="submit">LOGIN</button>
+            <button class="register-button" type="submit">REGISTER</button>
         </form>
     </div>
 
@@ -442,6 +443,8 @@
         </svg>
 
         <img src="https://www.imsystem.site/image/def_picture.jpg" width="80" height="80" />
+
+        <div class="info-message">登入成功</div>
     </div>
 
     <style>
@@ -472,6 +475,18 @@
             border-width: 2px;
             top: 68px;
             left: 72.75px;
+        }
+
+        .welcome-container .info-message {
+            font-family: 'Noto Sans TC', monospace;
+            position: absolute;
+            top: 160px;
+            left: 0px;
+            width: 100%;
+            height: 50px;
+            font-size: 30px;
+            color: #bbb;
+            text-align: center;
         }
     </style>
 
@@ -879,24 +894,67 @@
         var registerButton = document.querySelector(".register-button");
         var loginContainer = document.querySelector(".login-container");
         var welcomeContainer = document.querySelector(".welcome-container");
+        var welcomeInfoMessage = document.querySelector(".welcome-container .info-message");
+
+        function checkIsLoginForm() {
+            return loginContainer.classList.contains("login-container");
+        }
 
         loginButton.onclick = function (event) {
             event.preventDefault();
 
-            notReady:
-            if (loginContainer.classList.contains("register-container")) {
-                if ([accountField, passwordField, nameField, emailField].some(field => !field.value)) {
+            ready:
+            if (checkIsLoginForm()) {
+                if ([accountField, passwordField].some(field => !field.value)) {
                     return;
                 }
 
-                welcomeContainer.style.display = "block";
+                var request = fetch("/login-api.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: encodeURI(Object.entries({
+                        "name": accountField.value,
+                        "password": passwordField.value,
+                    }).map((field) => field.join("=")).join("&")),
+                });
 
-                setTimeout(function () {
-                    welcomeContainer.style.opacity = "0";
-                    welcomeContainer.style.transform = "scale(0)";
-                }, 1500);
+                request
+                    .then(function (response) {
+                        if (response.status !== 200) {
+                            welcomeInfoMessage.style.color = "red";
+                        }
+                        else {
+                            welcomeInfoMessage.style.color = "";
+                        }
 
-                //break notReady;
+                        response.json().then(({ message }) => {
+                            welcomeInfoMessage.innerText = message;
+                            welcomeContainer.style.display = "block";
+
+                            setTimeout(function () {
+                                if (response.status === 200) {
+                                    welcomeContainer.style.opacity = "0";
+                                    welcomeContainer.style.transform = "scale(0)";
+                                }
+                                else {
+                                    loginContainer.style.opacity = "";
+                                    loginContainer.style.transform = "";
+                                    welcomeContainer.style.display = "";
+                                }
+                            }, 1500);
+                        });
+                    })
+                    .catch(function () {
+                        loginContainer.style.opacity = "";
+                        loginContainer.style.transform = "";
+                    });
+            }
+            else {
+                if ([accountField, passwordField, nameField, emailField].some(field => !field.value)) {
+                    return;
+                }
 
                 var request = fetch("/register-api.php", {
                     method: "POST",
@@ -913,51 +971,24 @@
 
                 request
                     .then(function (response) {
-                        welcomeContainer.style.display = "block";
+                        if (response.status !== 201) {
+                            welcomeInfoMessage.style.color = "red";
+                        }
+                        else {
+                            welcomeInfoMessage.style.color = "";
+                        }
 
-                        setTimeout(function () {
-                            welcomeContainer.style.opacity = "0";
-                            welcomeContainer.style.transform = "scale(0)";
-                        }, 1500);
-                    })
-                    .catch(function () {
-                        loginContainer.style.opacity = "";
-                        loginContainer.style.transform = "";
-                    });
-            }
-            else {
-                if ([accountField, passwordField].some(field => !field.value)) {
-                    return;
-                }
-
-                welcomeContainer.style.display = "block";
-
-                setTimeout(function () {
-                    welcomeContainer.style.opacity = "0";
-                    welcomeContainer.style.transform = "scale(0)";
-                }, 1500);
-
-                //break notReady;
-
-                var request = fetch("/login-api.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: encodeURI(Object.entries({
-                        "name": accountField.value,
-                        "password": passwordField.value,
-                    }).map((field) => field.join("=")).join("&")),
-                });
-
-                request
-                    .then(function (response) {
-                        welcomeContainer.style.display = "block";
-
-                        setTimeout(function () {
-                            welcomeContainer.style.opacity = "0";
-                            welcomeContainer.style.transform = "scale(0)";
-                        }, 1500);
+                        response.json().then(({ message }) => {
+                            if (response.status === 201) {
+                                welcomeContainer.style.opacity = "0";
+                                welcomeContainer.style.transform = "scale(0)";
+                            }
+                            else {
+                                loginContainer.style.opacity = "";
+                                loginContainer.style.transform = "";
+                                welcomeContainer.style.display = "";
+                            }
+                        });
                     })
                     .catch(function () {
                         loginContainer.style.opacity = "";
@@ -965,16 +996,30 @@
                     });
             }
 
+            loginContainer.style.animation = "none";
             loginContainer.style.opacity = "0";
             loginContainer.style.transform = "scale(0)";
         };
 
         registerButton.onclick = function (event) {
             event.preventDefault();
-            loginContainer.className = "register-container";
-            registerButton.style.opacity = "0";
-            registerButton.style.visibility = "hidden";
-            loginButton.innerText = "SUBMIT";
+
+            if (checkIsLoginForm()) {
+                loginContainer.className = "register-container";
+                registerButton.innerText = "BACK";
+                loginButton.innerText = "SUBMIT";
+                accountField.type = "text";
+                passwordField.type = "text";
+            }
+            else {
+                loginContainer.className = "login-container";
+                registerButton.innerText = "REGISTER";
+                loginButton.innerText = "LOGIN";
+                accountField.type = "password";
+                passwordField.type = "password";
+            }
+
+            loginContainer.style.animation = "none";
         };
     </script>
 </body>
