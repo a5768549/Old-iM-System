@@ -931,17 +931,22 @@
                             
                         }
 
-                        response.json().then(({ message,photo_path,border_color }) => {
-                            welcomeInfoMessage.innerText = message;
-                            welcomeContainer.style.display = "block";
+                        response.json().then(({ message, photo_path, border_color }) => {
                             setTimeout(function () {
                                 if (response.status === 200) {
-                                    welcomeContainer.style.opacity = "0";
-                                    welcomeContainer.style.transform = "scale(0)";
                                     welcomeAvatar.src = photo_path;
                                     welcomeAvatar.borderColor = border_color;
+
+                                    welcomeAvatar.onload = () => {
+                                        welcomeInfoMessage.innerText = message;
+                                        welcomeContainer.style.display = "block";
+                                        welcomeContainer.style.opacity = "0";
+                                        welcomeContainer.style.transform = "scale(0)";
+                                    };
                                 }
                                 else {
+                                    welcomeInfoMessage.innerText = message;
+                                    welcomeContainer.style.display = "block";
                                     loginContainer.style.opacity = "";
                                     loginContainer.style.transform = "";
                                     welcomeContainer.style.display = "";
