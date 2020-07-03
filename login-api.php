@@ -24,7 +24,7 @@ $is_login_info_valid = $name && $password;
 
 if ($is_login_info_valid) {
     /** 查詢式 */
-	$statement = $con->prepare("SELECT `password` FROM member WHERE account = ?");
+    $statement = $con->prepare("SELECT `password` FROM member WHERE account = ?");
     $statement->execute([$name]);
 
     /** 用戶資訊 */
@@ -33,15 +33,15 @@ if ($is_login_info_valid) {
     /** 密碼是否正確 */
     $is_password_verified = password_verify($password, $member["password"]);
 
-	if ($is_password_verified) {
+    if ($is_password_verified) {
         $_SESSION["login"] = $name;
         http_response_code(200);
         exit(json_encode(["message" => "登入成功"]));
-	}
-	else {
+    }
+    else {
         http_response_code(401);
         exit(json_encode(["message" => "登入失敗"]));
-	}
+    }
 }
 else {
     http_response_code(400);
