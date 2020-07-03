@@ -433,7 +433,7 @@
             <rect class="system-verifying-text-background" x="51.25" y="10.25" width="123" height="30.75"
                 fill="rgba(255, 255, 255, 0.1)"></rect>
 
-            <text class="system-verifying-text" x="76.25" y="30.25" fill="#bbb">VERIFYING</text>
+            <text class="system-verifying-text" x="74.25" y="30.25" fill="#bbb">VERIFYING</text>
 
             <path class="horizon-lines" d="M 10.25 51.5 h 205.5" fill="none" stroke="#ddd" stroke-width="3"
                 stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
@@ -937,6 +937,7 @@
                                     welcomeContainer.style.display = "block";
                                     loginContainer.style.opacity = "0";
                                     loginContainer.style.transform = "scale(0)";
+                                    setTimeout(function(){window.location.href='/main/main.php';},3000);
                                 };
 
                                 welcomeAvatar.removeAttribute("src");
@@ -993,6 +994,7 @@
                                 welcomeContainer.style.display = "block";
                                 loginContainer.style.opacity = "0";
                                 loginContainer.style.transform = "scale(0)";
+                                setTimeout(function(){window.location.href='/index.html';},3000);
                             }
                             else {
                                 welcomeInfoMessage.innerText = message;
