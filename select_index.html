@@ -119,6 +119,7 @@
             display: block;
             border: none;
             outline: none;
+            border:1px transparent solid;
         }
         
         .language-chinese {
@@ -216,8 +217,14 @@
         
         .disable_button:active {
             color: #130f13;
+            border-color: red;
+            border-style: solid;
             background-color: #F00;
             transform: scale(0.8);
+        }
+        
+        .pre_select_button {
+            border:1px white solid;
         }
 
     </style>
@@ -247,7 +254,7 @@
             </svg>
         </div>
         <div class="language-container">
-            <div class="enable_button  language language-chinese">中文</div>
+            <div class="pre_select_button enable_button  language language-chinese">中文</div>
             <div class="disable_button language language-english">ENGLISH</div>
             <div class="disable_button language language-japanese">日本語</div>
             <div class="disable_button language language-korean">한국어</div>
@@ -269,7 +276,7 @@
             <div class="enable_button info info-im-group">關於我們</div>
         </div>
         
-        <div class="enable_button  old-interface-button">Ver 2.4</div>
+        <div class="pre_select_button enable_button  old-interface-button">Ver 2.4</div>
         <div class="disable_button new-interface-button">Ver 3.0</div>
         <div class="enable_button  submit-interface-button">SUBMIT</div>
     </div>
