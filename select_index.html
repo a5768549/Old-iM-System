@@ -43,7 +43,7 @@
         .old-interface-button {
             position: absolute;
             top: -50px;
-            right: 270px;
+            right: 200px;
             width: 150px;
             height: 100px;
             color: #bbb;
@@ -64,7 +64,7 @@
         .new-interface-button {
             position: absolute;
             top: -50px;
-            right: -50px;
+            right: 0px;
             width: 150px;
             height: 100px;
             color: #bbb;
@@ -82,9 +82,29 @@
             outline: none;
         }
         
+        .submit-interface-button {
+            position: absolute;
+            top: 100px;
+            right: 110px;
+            width: 150px;
+            height: 50px;
+            color: #bbb;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-family: 'Electrolize', monospace;
+            animation: login-button 0.5s 4.25s backwards;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+        
         .language {
             position: absolute;
-            right: -220px;
+            right: -200px;
             width: 100px;
             height: 25px;
             color: #bbb;
@@ -116,6 +136,89 @@
         .language-korean {
             top: 10px;
         }
+        
+        .donate {
+            position: absolute;
+            right: 450px;
+            width: 100px;
+            height: 50px;
+            color: #bbb;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-family: 'Noto Sans TC', monospace;
+            animation: login-button 0.5s 4.25s backwards;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+        
+        .donate-paypal {
+            top: -60px;
+        }
+        
+        .donate-ecpay {
+            top: -5px;
+        }
+        
+        .donate-text {
+            position: absolute;
+            top: -100px;
+            right: 450px;
+            width: 100px;
+            height: 50px;
+            color: #bbb;
+            line-height: 50px;
+            text-align: center;
+            font-family: 'Noto Sans TC', monospace;
+            animation: login-button 0.5s 4.25s backwards;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+        
+        .info {
+            position: absolute;
+            top: 180px;
+            width: 100px;
+            height: 50px;
+            color: #bbb;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-family: 'Noto Sans TC', monospace;
+            animation: login-button 0.5s 4.25s backwards;
+            cursor: pointer;
+            transition: all 0.5s;
+            display: block;
+            border: none;
+            outline: none;
+        }
+        
+        .info-declaration {
+            right: 450px;
+        }
+        
+        .info-im-group {
+            right: -200px;
+        }
+        
+        .enable_button:active {
+            color: #130f13;
+            background-color: #bbb;
+            transform: scale(0.8);
+        }
+        
+        .disable_button:active {
+            color: #130f13;
+            background-color: #F00;
+            transform: scale(0.8);
+        }
 
     </style>
 </head>
@@ -144,13 +247,31 @@
             </svg>
         </div>
         <div class="language-container">
-            <div class="language language-chinese">中文</div>
-            <div class="language language-english">ENGLISH</div>
-            <div class="language language-japanese">日本語</div>
-            <div class="language language-korean">한국어</div>
+            <div class="enable_button  language language-chinese">中文</div>
+            <div class="disable_button language language-english">ENGLISH</div>
+            <div class="disable_button language language-japanese">日本語</div>
+            <div class="disable_button language language-korean">한국어</div>
         </div>
-        <div class="old-interface-button">Ver 2.4</div>
-        <div class="new-interface-button">Ver 3.0</div>
+        
+        
+        <div class="donate-container">
+            <div class="button donate-text">非官方斗內</div>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="84BK9N65GKEQQ">
+                <input class="enable_button donate donate-paypal" type="submit" value="PayPal">
+            </form>
+            <button class="enable_button donate donate-ecpay" onclick="window.location.href='https://p.ecpay.com.tw/CE103'">ECPay</button>
+        </div>
+        
+        <div class="info-container">
+            <div class="enable_button info info-declaration">二創聲明</div>
+            <div class="enable_button info info-im-group">關於我們</div>
+        </div>
+        
+        <div class="enable_button  old-interface-button">Ver 2.4</div>
+        <div class="disable_button new-interface-button">Ver 3.0</div>
+        <div class="enable_button  submit-interface-button">SUBMIT</div>
     </div>
 
     <style>
@@ -202,12 +323,8 @@
 
 
     <script>
-        var accountField = document.querySelector(".login-container [name=name]");
-        var passwordField = document.querySelector(".login-container [name=password]");
-        var nameField = document.querySelector(".login-container [name=id]");
-        var emailField = document.querySelector(".login-container [name=email]");
-        var loginButton = document.querySelector(".login-button");
-        var registerButton = document.querySelector(".register-button");
+        var donatePaypal = document.querySelector(".donate-paypal");
+        var donateEcpay = document.querySelector(".donate-ecpay");
         var loginContainer = document.querySelector(".login-container");
         var welcomeContainer = document.querySelector(".welcome-container");
         var welcomeInfoMessage = document.querySelector(".welcome-container .info-message");
@@ -217,7 +334,9 @@
             return loginContainer.classList.contains("login-container");
         }
 
-        
+        donatePaypal.onclick = function (event) {
+            window.location.href = '/main/main.php';
+        }
 
         var viewWidth = 799.5;
         var viewHeight = 451;
