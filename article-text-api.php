@@ -7,13 +7,13 @@ header("Content-Type: application/json; charset=utf8");
 $is_request_method_not_allowed = $_SERVER["REQUEST_METHOD"] !== "POST";
 
 if ($is_request_method_not_allowed) {
-    //http_response_code(405);
-    //exit(json_encode(["message" => "不允許的方法"]));
+    http_response_code(405);
+    exit(json_encode(["message" => "不允許的方法"]));
 }
 
 include("connect.php"); //連接資料庫
 
-$id = $_GET["id"];
+$id = $_POST["id"];
 
 $statement  = $con->prepare("SELECT * FROM article WHERE ID = ?");
 $statement -> execute([$id]);
@@ -58,5 +58,4 @@ exit(json_encode(["message" => "查詢成功",
                   "author_avator_color" => $return_color,
                   "thumbsup" => $result["like_num"],
                   "article_photo" => $result[photo]]));
-
 ?>
