@@ -11,7 +11,8 @@ if ($is_request_method_not_allowed) {
     exit(json_encode(["message" => "不允許的方法"]));
 }
 
-include("connect.php"); // 連接資料庫
+include("../connect.php"); // 連接資料庫
+include("special-account.php");
 
 /** 使用者名稱 */
 $name = htmlspecialchars($_POST["name"]);
@@ -35,24 +36,11 @@ if ($is_login_info_valid) {
 
     if ($is_password_verified) {
         $_SESSION["login"] = $name;
-        
-        $special_Account = ["C2PAFF","C2NEKO","C2ROBO","C2Ivy","C2Xenon","C2ConneR","C2Cherry","C2JOE","C2Nora"];
-        $special_color = [  "#59BD9C",
-                            "#D693B5",
-                            "#82B4C5",
-                            "#55555D",
-                            "#BB4646",
-                            "#9F6932",
-                            "#7E434F",
-                            "#623873",
-                            "#82878D"];
 
         $statement = $con->prepare("SELECT photo FROM member WHERE account = ?");
         $statement->execute([$name]);
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-        $return_color = "#FFFFFF";
 
         for($i=0;$i<9;$i++)
         {

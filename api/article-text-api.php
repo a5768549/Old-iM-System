@@ -11,7 +11,8 @@ if ($is_request_method_not_allowed) {
     exit(json_encode(["message" => "不允許的方法"]));
 }
 
-include("connect.php"); //連接資料庫
+include("../connect.php"); //連接資料庫
+include("special-account.php");
 
 $id = $_POST["id"];
 
@@ -27,20 +28,6 @@ $statement3 = $con->prepare("Select COUNT(*) From comments Where post_id = '$id'
 $statement3 ->execute([$result["poster"]]);
 $result3 = $statement3->fetch(PDO::FETCH_ASSOC);
 $id_count1 = $result3["COUNT(*)"];
-
-
-$special_Account = ["C2PAFF","C2NEKO","C2ROBO","C2Ivy","C2Xenon","C2ConneR","C2Cherry","C2JOE","C2Nora"];
-$special_color = [  "#59BD9C",
-				    "#D693B5",
-				    "#82B4C5",
-				    "#55555D",
-				    "#BB4646",
-				    "#9F6932",
-				    "#7E434F",
-				    "#623873",
-				    "#82878D"];
-
-$return_color = "#FFFFFF";
 
 for($i=0;$i<9;$i++){
     if($result["poster"] == $special_Account[$i]){

@@ -4,20 +4,20 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<title>歡迎介面</title>
+    <link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet'>
+	<title>iM System</title>
 </head>
 
 <style type="text/css">
-@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
 body
 {
 	color: #FFFFFF;
 	background-color: #333;
-	font-family: 'Noto Sans TC', sans-serif;
+	font-family: 'Electrolize', sans-serif;
 }
 body,td,th
 {
-	font-family: 'Noto Sans TC', sans-serif;
+	font-family: 'Electrolize', sans-serif;
 }
 .ac-badge 
 {

@@ -909,7 +909,7 @@
                     return;
                 }
 
-                var request = fetch("/login-api.php", {
+                var request = fetch("/api/login-api.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
@@ -966,7 +966,7 @@
                     return;
                 }
 
-                var request = fetch("/register-api.php", {
+                var request = fetch("/api/register-api.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
@@ -994,7 +994,7 @@
                                 welcomeContainer.style.display = "block";
                                 loginContainer.style.opacity = "0";
                                 loginContainer.style.transform = "scale(0)";
-                                setTimeout(function () { window.location.href = '/index.html'; }, 3000);
+                                setTimeout(function () { window.location.href = '/old_interface.html'; }, 3000);
                             }
                             else {
                                 welcomeInfoMessage.innerText = message;

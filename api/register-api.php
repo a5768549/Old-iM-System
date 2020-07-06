@@ -11,7 +11,7 @@ if ($is_request_method_not_allowed) {
     exit(json_encode(["message" => "不允許的方法"]));
 }
 
-include("connect.php"); // 連接資料庫
+include("../connect.php"); // 連接資料庫
 
 /** 使用者名稱 */
 $name = htmlspecialchars($_POST["name"]);

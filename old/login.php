@@ -15,6 +15,7 @@ body {
 	font-size: 64px;
 }
 </style>
+
 <div id="apDiv1">
 
 <?php
@@ -42,7 +43,7 @@ if ($name && $password)
 		echo "使用者名稱或密碼錯誤";
 		echo "
 		<script>
-		setTimeout(function(){window.location.href='login.html';},1000);
+		setTimeout(function(){window.location.href='index.html';},1000);
 		</script>
 		";
 	}
@@ -53,7 +54,7 @@ else
 echo "表單填寫不完整";
 echo "
 <script>
-setTimeout(function(){window.location.href='login.html';},1000);
+setTimeout(function(){window.location.href='index.html';},1000);
 </script>";
 //如果錯誤使用js 1秒後跳轉到登入頁面重試;
 }

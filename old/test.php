@@ -1,5 +1,9 @@
+<html>
+<body>
+<!--  静态的表单在页面再次提交之后， 不再显示   同时页面的CSS失效-->
+
 <?php
-$str=$_POST['str'];
+$str=_POST['str1'];
 
 function getBig5CodeFromUtf8($u8str)
 {
@@ -16,3 +20,5 @@ echo '<br>';
 
 
 ?>
+<body>
+<html>

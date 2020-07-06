@@ -11,7 +11,8 @@ if ($is_request_method_not_allowed) {
     exit(json_encode(["message" => "不允許的方法"]));
 }
 
-include("connect.php"); // 連接資料庫
+include("../connect.php"); // 連接資料庫
+include("special-account.php");
 
 $list = ($_POST["list"] - 1) * 10;
 
@@ -46,19 +47,6 @@ for($i=0;$i<10;$i++){
 	array_push($name     ,$result2["name"]);
 	array_push($like_num ,$result["like_num"]);
 }
-
-$special_Account = ["C2PAFF","C2NEKO","C2ROBO","C2Ivy","C2Xenon","C2ConneR","C2Cherry","C2JOE","C2Nora"];
-$special_color = [  "#59BD9C",
-				    "#D693B5",
-				    "#82B4C5",
-				    "#55555D",
-				    "#BB4646",
-				    "#9F6932",
-				    "#7E434F",
-				    "#623873",
-				    "#82878D"];
-
-$default_color = "#FFFFFF";
 
 for($i=0;$i<9;$i++){
     if($poster[$i] == $special_Account[$i]){
