@@ -43,11 +43,21 @@ for($i=1;$i<$comment_all+1;$i++){
     array_push($name       ,$result2["name"]);
 }
 
-for($i=0;$i<9;$i++){
-    if($commenter[$i] == $special_Account[$i]){
-        array_push($photo_color ,$special_color[$i]);
-    }else{
-        array_push($photo_color ,$default_color);
+for($i=0;$i<$comment_all;$i++)
+{
+    array_push($photo_color ,$default_color);
+}
+
+for($i=0;$i<$comment_all;$i++)
+{
+    for($j=0;$j<9;$j++)
+    {
+        if($commenter[$i] == $special_Account[$j]){
+            $photo_color[$i] = $special_color[$j];
+            break;
+        }else{
+            $photo_color[$i] = $default_color;
+        }
     }
 }
 
