@@ -50,7 +50,7 @@ for($i=0;$i<$comment_all;$i++)
 
 for($i=0;$i<$comment_all;$i++)
 {
-    for($j=0;$j<9;$j++)
+    for($j=0;$j<count($special_Account);$j++)
     {
         if($commenter[$i] == $special_Account[$j]){
             $photo_color[$i] = $special_color[$j];

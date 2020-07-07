@@ -24,7 +24,7 @@ $statement = $con->prepare("SELECT * FROM member WHERE account = ?");
 $statement->execute([$name]);
 $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-for($i=0;$i<9;$i++){
+for($i=0;$i<count($special_Account);$i++){
     if($name == $special_Account[$i]){
         $default_color = $special_color[$i];
     }

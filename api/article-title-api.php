@@ -55,7 +55,7 @@ for($i=0;$i<10;$i++)
 
 for($i=0;$i<10;$i++)
 {
-    for($j=0;$j<9;$j++)
+    for($j=0;$j<count($special_Account);$j++)
     {
         if($poster[$i] == $special_Account[$j]){
             $photo_color[$i] = $special_color[$j];

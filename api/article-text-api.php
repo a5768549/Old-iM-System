@@ -29,7 +29,7 @@ $statement3 ->execute([$result["poster"]]);
 $result3 = $statement3->fetch(PDO::FETCH_ASSOC);
 $id_count1 = $result3["COUNT(*)"];
 
-for($i=0;$i<9;$i++){
+for($i=0;$i<count($special_Account);$i++){
     if($result["poster"] == $special_Account[$i]){
         $return_color = $special_color[$i];
     }

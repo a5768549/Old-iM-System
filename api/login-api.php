@@ -42,7 +42,7 @@ if ($is_login_info_valid) {
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        for($i=0;$i<9;$i++)
+        for($i=0;$i<count($special_Account);$i++)
         {
             if($name == $special_Account[$i])
             {
