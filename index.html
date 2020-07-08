@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh_TW">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -7,354 +7,550 @@
     <title>iM System</title>
     <link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1b56986078.js" crossorigin="anonymous"></script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
+            width: 100%;
+            height: 100%;
+            max-width: 100vw;
+            max-height: 100vh;
+            max-width: -webkit-fill-available;
+            max-height: -webkit-fill-available;
+        }
+
+        body {
+            font-family: 'Noto Sans TC';
             margin: 0;
-            background-color: #130f13;
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
+            background-color: #fefefe;
         }
 
-        .welcome-container {
+        header {
+            font-size: 40px;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            font-family: 'Electrolize', monospace;
+        }
+
+        main {
+            width: 100%;
+            height: calc(100% - 120px);
+            padding: 10px;
+            border-top: 1px solid #010001;
+            border-bottom: 1px solid #010001;
+        }
+
+        section {
+            position: fixed;
+            border-top: 1px solid #010001;
+            border-bottom: 1px solid #010001;
+            width: 100%;
+            height: calc(100% - 120px);
+            top: 60px;
+            left: 0;
+            background-color: #fefefe;
+            padding: 10px;
+            transition: all 0.5s;
+            overflow: auto;
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        section:target {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+
+        section:target+section {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        .section-close {
+            display: block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #010001;
+            background-image: url('data:image/svg+xml,<svg%20width%3D"40"%20height%3D"40"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"><path%20d%3D"M%2010%2010%20l%2020%2020%20M%2010%2030%20l%2020%20-20"%20stroke%3D"%23fefefe"%20stroke-width%3D"1"%20fill%3D"none"><\%2Fpath><\%2Fsvg>');
+            transition: all 0.5s;
+        }
+
+        .section-close:active {
+            transform: scale(0.6);
+        }
+
+        .choose-version-hint,
+        .choose-language-hint {
+            width: 100%;
+            max-width: 360px;
+            margin: 10px auto;
+        }
+
+        .choose-version {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .choose-language input[type=radio],
+        .choose-version input[type=radio] {
             display: none;
-            position: absolute;
-            top: calc(50% - 112.75px);
-            left: calc(50% - 133.25px);
         }
 
-        .login-container{
-            position: absolute;
-            top: calc(50% - 69.7px);
-            left: calc(50% - 174.25px);
-            width: 348.5px;
-            height: 139.4px;
+        .version {
+            font-family: 'Electrolize', monospace;
+            font-size: 26px;
+            color: #fefefe;
+            cursor: pointer;
+            user-select: none;
+            display: block;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 100px;
+            margin: 10px;
+            opacity: 0.75;
+            transition: all 0.25s;
         }
 
-        .progress-container {
-            position: absolute;
-            top: calc(50% - 225.5px);
-            left: calc(50% - 399.75px);
-            width: 799.5px;
-            height: 451px;
+        .version:active {
+            transform: scale(0.6);
         }
-        
-        .old-interface-button {
-            position: absolute;
-            top: -50px;
-            right: 200px;
-            width: 150px;  
-            height: 100px;
-            color: #bbb;
-            line-height: 100px;
-            text-align: center;
-            border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            background-image:url(/image/old_interface.jpg);
-            background-size:150px 100px;
-            font-family: 'Electrolize', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            cursor: pointer;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
+
+        input[type=radio]:checked+.version {
+            color: gold;
+            opacity: 1;
         }
-        
-        .new-interface-button {
+
+        .version * {
             position: absolute;
-            top: -50px;
-            right: 0px;
-            width: 150px;
-            height: 100px;
-            color: #bbb;
-            line-height: 100px;
-            text-align: center;
-            border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            background-image:url(/image/new_interface.jpg);
-            background-size:150px 100px;
-            font-family: 'Electrolize', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            cursor: pointer;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .submit-interface-button {
-            position: absolute;
-            top: 100px;
-            right: 110px;
-            width: 150px;
-            height: 50px;
-            color: #bbb;
-            line-height: 50px;
-            text-align: center;
-            border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            font-family: 'Electrolize', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            cursor: pointer;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
+
+        .choose-language {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
         }
-        
+
         .language {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            color: #fefefe;
+            margin: 10px;
+            background-color: #010001;
+            opacity: 0.75;
+            transition: all 0.5s;
+        }
+
+        .language:active {
+            transform: scale(0.6);
+        }
+
+        input[type=radio]:checked+.language {
+            color: gold;
+            opacity: 1;
+        }
+
+        .choose-donation-method {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .donation-method {
+            font-family: 'Electrolize', monospace;
+            font-size: 26px;
+            color: #fefefe;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #010001;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 100px;
+            margin: 10px;
+            opacity: 0.75;
+            transition: all 0.25s;
+        }
+
+        .donation-method:active {
+            transform: scale(0.6);
+        }
+
+        .donation-method * {
+            font-family: 'Electrolize', monospace;
             position: absolute;
-            right: -200px;
+            font-size: 26px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            width: 100%;
+            height: 60px;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+            margin: 0;
+            height: 60px;
+        }
+
+        nav ul li {
+            display: block;
+            list-style: none;
+            margin: 10px;
+        }
+
+        a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        input[type=submit] {
+            outline: none;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
             width: 100px;
-            height: 25px;
-            color: #bbb;
-            line-height: 25px;
+            height: 40px;
+            background-color: #010001;
+            border: none;
+            color: #fefefe;
+            transition: all 0.5s;
+        }
+
+        input[type=submit]:active {
+            transform: scale(0.6);
+        }
+        
+        .media-button-div{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .media-button-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100% - 200px);
+            min-height: 200px;
+            flex-wrap: wrap;
+            align-content: center;
+        }
+
+
+        .media-button {
+            width: 150px;
+            height: 50px;
+            margin: 10px;
             text-align: center;
             border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            font-family: 'Noto Sans TC', monospace;
-            animation: login-button 0.5s 4.25s backwards;
+            line-height: 50px;
+            font-family: 'Electrolize', monospace;
             cursor: pointer;
             transition: all 0.5s;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10px;
             border: none;
             outline: none;
-            border:1px transparent solid;
+            color: #000;
         }
-        
-        .language-chinese {
-            top: -80px;
-        }
-        
-        .language-english {
-            top: -50px;
-        }
-        
-        .language-japanese {
-            top: -20px;
-        }
-        
-        .language-korean {
-            top: 10px;
-        }
-        
-        .donate {
-            position: absolute;
-            right: 450px;
-            width: 100px;
-            height: 50px;
-            color: #bbb;
-            line-height: 50px;
-            text-align: center;
-            border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            font-family: 'Noto Sans TC', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            cursor: pointer;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
-        }
-        
-        .donate-paypal {
-            top: -60px;
-        }
-        
-        .donate-ecpay {
-            top: -5px;
-        }
-        
-        .donate-text {
-            position: absolute;
-            top: -100px;
-            right: 450px;
-            width: 100px;
-            height: 50px;
-            color: #bbb;
-            line-height: 50px;
-            text-align: center;
-            font-family: 'Noto Sans TC', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
-        }
-        
-        .info {
-            position: absolute;
-            top: 180px;
-            width: 100px;
-            height: 50px;
-            color: #bbb;
-            line-height: 50px;
-            text-align: center;
-            border-radius: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            font-family: 'Noto Sans TC', monospace;
-            animation: login-button 0.5s 4.25s backwards;
-            cursor: pointer;
-            transition: all 0.5s;
-            display: block;
-            border: none;
-            outline: none;
-        }
-        
-        .info-declaration {
-            right: 450px;
-        }
-        
-        .info-im-group {
-            right: -200px;
-        }
-        
-        .enable_button:active {
+
+        .media-button:active {
             color: #130f13;
             background-color: #bbb;
             transform: scale(0.8);
         }
-        
-        .disable_button:active {
-            color: #130f13;
-            border-color: red;
-            border-style: solid;
-            background-color: #F00;
-            transform: scale(0.8);
-        }
-        
-        .pre_select_button {
-            border:1px white solid;
+
+        .media-button i {
+            margin-right: 5px;
         }
 
+        .media-button-fill {
+            width: 150px;
+            margin: 0 10px;
+        }
+
+        @media screen and (max-width: 360px) {
+
+            .version,
+            .donation-method {
+                width: 120px;
+                height: 80px;
+            }
+
+            .language {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media screen and (max-width: 300px) {
+
+            .version,
+            .donation-method {
+                width: 105px;
+                height: 70px;
+            }
+
+            .language {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media screen and (min-width: 700px) {
+
+            .choose-version-hint,
+            .choose-language-hint {
+                max-width: 640px;
+            }
+
+            .choose-version,
+            .choose-donation-method {
+                max-width: 640px;
+            }
+
+            .choose-language {
+                max-width: 400px;
+            }
+
+            .version,
+            .donation-method {
+                width: 300px;
+                height: 200px;
+            }
+
+            .language {
+                width: 80px;
+                height: 80px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="progress-container">
-            <svg width="799.5" height="451" xmlns="http://www.w3.org/2000/svg">
-                <path class="grid-lines" stroke="#444" stroke-width="0.25" fill="none"
-                    d="M 0 0 v 451 M 20.5 0 v 451 M 41 0 v 451 M 61.5 0 v 451 M 82 0 v 451 M 102.5 0 v 451 M 123 0 v 451 M 143.5 0 v 451 M 164 0 v 451 M 184.5 0 v 451 M 205 0 v 451 M 225.5 0 v 451 M 246 0 v 451 M 266.5 0 v 451 M 287 0 v 451 M 307.5 0 v 451 M 328 0 v 451 M 348.5 0 v 451 M 369 0 v 451 M 389.5 0 v 451 M 410 0 v 451 M 430.5 0 v 451 M 451 0 v 451 M 471.5 0 v 451 M 492 0 v 451 M 512.5 0 v 451 M 533 0 v 451 M 553.5 0 v 451 M 574 0 v 451 M 594.5 0 v 451 M 615 0 v 451 M 635.5 0 v 451 M 656 0 v 451 M 676.5 0 v 451 M 697 0 v 451 M 717.5 0 v 451 M 738 0 v 451 M 758.5 0 v 451 M 779 0 v 451 M 799.5 0 v 451 M 0 0 h 799.5 M 0 20.5 h 799.5 M 0 41 h 799.5 M 0 61.5 h 799.5 M 0 82 h 799.5 M 0 102.5 h 799.5 M 0 123 h 799.5 M 0 143.5 h 799.5 M 0 164 h 799.5 M 0 184.5 h 799.5 M 0 205 h 799.5 M 0 225.5 h 799.5 M 0 246 h 799.5 M 0 266.5 h 799.5 M 0 287 h 799.5 M 0 307.5 h 799.5 M 0 328 h 799.5 M 0 348.5 h 799.5 M 0 369 h 799.5 M 0 389.5 h 799.5 M 0 410 h 799.5 M 0 430.5 h 799.5 M 0 451 h 799.5">
-                </path>
-                
-                <g class="login-layout">
-                    <path class="top-thick-line" d="M 0 25 h 799.5" stroke="#bbb" stroke-width="3"></path>
+    <header>iM System</header>
+    <main>
+        <form action="/old_interface.html">
+            <div class="choose-version-hint">Choose version of UI:</div>
+            <div class="choose-version">
+                <input type="radio" name="version" id="version-2.4" value="2.4" checked>
 
-                    <path class="horizon-lines" d="M 0 50 h 799.5" fill="none" stroke="#ddd" stroke-width="3"
-                        stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
-                    </path>
-                    
-                    <path class="horizon-lines" d="M 0 410 h 799.5" fill="none" stroke="#ddd" stroke-width="3"
-                        stroke-dasharray="0.15 20.5" stroke-dashoffset="7" stroke-linecap="round">
-                    </path>
+                <label class="version" for="version-2.4">
+                    <img src="./image/ui-2.4.jpg">
+                    <div class="version-text">Ver 2.4</div>
+                </label>
 
-                    <path class="bottom-thick-line" d="M 0 425 h 799.5" stroke="#bbb" stroke-width="3"></path>
-                </g>
-            </svg>
-        </div>
-        <div class="language-container">
-            <div class="pre_select_button enable_button  language language-chinese">中文</div>
-            <div class="disable_button language language-english">ENGLISH</div>
-            <div class="disable_button language language-japanese">日本語</div>
-            <div class="disable_button language language-korean">한국어</div>
-        </div>
-        
-        
-        <div class="donate-container">
-            <div class="button donate-text">非官方斗內</div>
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="radio" name="version" id="version-3.0" value="3.0" disabled>
+
+                <label class="version" for="version-3.0">
+                    <img src="./image/ui-3.0.jpg">
+                    <div class="version-text">Ver 3.0</div>
+                </label>
+            </div>
+            <div class="choose-language-hint">Choose language:</div>
+            <div class="choose-language">
+                <input type="radio" name="language" id="language-zh" value="zh" checked>
+                <label class="language" for="language-zh">中</label>
+                <input type="radio" name="language" id="language-en" value="en" disabled>
+                <label class="language" for="language-en">EN</label>
+                <input type="radio" name="language" id="language-jp" value="jp" disabled>
+                <label class="language" for="language-jp">JP</label>
+                <input type="radio" name="language" id="language-ko" value="ko" disabled>
+                <label class="language" for="language-ko">KO</label>
+            </div>
+            <input type="submit" value="SUBMIT">
+        </form>
+    </main>
+    <section id="donation">
+        <a class="section-close" href="#"></a>
+        <h1 style="text-align: center;">非官方斗內</h1>
+        <div class="choose-donation-method">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="POST" target="_blank" style="display: none;">
                 <input type="hidden" name="cmd" value="_s-xclick">
                 <input type="hidden" name="hosted_button_id" value="84BK9N65GKEQQ">
-                <input class="enable_button donate donate-paypal" type="submit" value="PayPal">
+                <input type="submit" value="PayPal" id="go-to-paypal">
             </form>
-            <button class="enable_button donate donate-ecpay" onclick="window.location.href='https://p.ecpay.com.tw/CE103'">ECPay</button>
+            <label class="donation-method" for="go-to-paypal">Paypal</label>
+            <a class="donation-method" href="https://p.ecpay.com.tw/CE103" target="_blank">ECPay</a>
         </div>
-        
-        <div class="info-container">
-            <div class="enable_button info info-declaration">二創聲明</div>
-            <div class="enable_button info info-im-group">關於我們</div>
+    </section>
+    <section id="stat-of-2nd-creation">
+        <a class="section-close" href="#"></a>
+        <h1 style="text-align: center;">二創聲明</h1>
+        <div style="max-width: 800px; margin: 10px auto;">
+            <p>雷亞許可製作iM系統，但並無給予二次創作授權</p>
+            <p>Rayark allows us to make iM system, but Rayark is not authorize the second creation authorization.</p>
+            <p>Rayarkは二次創作を許可する。オフィシャル権限を与えられませんでした。</p>
+            <p>Rayark사의 iM 시스템을 통해 만들 수 있는 권한을 제공하지만, 2차 창작이나 2차 생성에 대한 권한을 허용하지 않습니다.</p>
+            <span style="display: flex; align-items: center; justify-content: center;">
+                <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/tw/" target="_blank"
+                    style="display: block; margin-right: 10px;">
+                    <img src="https://i.creativecommons.org/l/by-nc-sa/3.0/tw/88x31.png" style="display: block;">
+                </a>
+                iM System由 iM group 製作，以創用CC 姓名標示-非商業性-相同方式分享 3.0 台灣 授權條款釋出。
+            </span>
+            <p>此作品衍生自 <a href="https://www.rayark.com/" target="_blank">www.rayark.com</a></p>
         </div>
-        
-        <div class="pre_select_button enable_button  old-interface-button">Ver 2.4</div>
-        <div class="disable_button new-interface-button">Ver 3.0</div>
-        <button class="enable_button submit-interface-button" onclick="window.location.href='/old_interface.html'">SUBMIT</button>
-    </div>
-
-    <style>
-        .progress-container svg .login-layout .top-thick-line,
-        .progress-container svg .login-layout .bottom-thick-line{
-            animation: thick-line 0.5s 0.5s backwards;
-            stroke-dashoffset: 0px;
-            stroke-dasharray: 799.5px;
-        }
-
-        @keyframes thick-line {
-            from {
-                stroke-dashoffset: 799.5px;
-                transform: translateX(399.75px);
-            }
-        }
-    </style>
-
-    <style>
-        .progress-container svg .login-layout .horizon-lines {
-            animation-name: horizon-lines-fade-in, horizon-lines;
-            animation-delay: 0.5s, 0.5s;
-            animation-duration: 2s, 5s;
-            animation-iteration-count: 1, infinite;
-            animation-timing-function: linear, linear;
-            animation-fill-mode: backwards, forwards;
-        }
-
-        .progress-container svg .register-layout .horizon-lines {
-            animation-name: horizon-lines;
-            animation-duration: 5s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-            animation-fill-mode: forwards;
-        }
-
-        @keyframes horizon-lines-fade-in {
-            from {
-                opacity: 0;
-            }
-        }
-
-        @keyframes horizon-lines {
-            to {
-                stroke-dashoffset: 307.5;
-            }
-        }
-    </style>
-
-
-    <script>
-        var donatePaypal = document.querySelector(".donate-paypal");
-        var donateEcpay = document.querySelector(".donate-ecpay");
-        var loginContainer = document.querySelector(".login-container");
-        var welcomeContainer = document.querySelector(".welcome-container");
-        var welcomeInfoMessage = document.querySelector(".welcome-container .info-message");
-        var welcomeAvatar = document.querySelector(".welcome-container img");
-
-        function checkIsLoginForm() {
-            return loginContainer.classList.contains("login-container");
-        }
-
-        var viewWidth = 799.5;
-        var viewHeight = 451;
-        var { innerWidth, innerHeight } = window;
-        var widthRatio = innerWidth / viewWidth;
-        var heightRatio = innerHeight / viewHeight;
-        var scale = Math.max(widthRatio, heightRatio);
-
-        if (innerWidth >= viewWidth && innerHeight >= viewHeight) {
-            loginContainer.style.transform = `scale(${scale})`;
-            loginContainer.style.transformOrigin = "center";
-        }
-    </script>
+    </section>
+    <section id="about-us">
+        <a class="section-close" href="#"></a>
+        <h1 style="text-align: center;">關於我們</h1>
+        <div style="max-width: 800px; margin: 10px auto;">
+            <p>我們是一群熱愛Cytus2的人</p>
+            <p>Github：<a href="https://github.com/im-system-group"
+                    target="_blank">https://github.com/im-system-group</a></p>
+            Email：admin@imsystem.site
+            <hr>
+            <p>招集人：紅茶</p>
+            <div class="media-button-div">
+                <div style="display: flex; align-items: center; justify-content: center; width: 200px; height: 200px;">
+                    <img src="/image/im-group/01.png" width="200">
+                </div>
+                <div class="media-button-container">
+                    <a class="media-button" href="https://twitter.com/a5768549" target="_blank"><i class="fab fa-twitter fa-2x"></i>a5768549</a>
+                    <a class="media-button" href="https://www.facebook.com/a5768549" target="_blank"><i class="fab fa-facebook fa-2x"></i>a5768549</a>
+                    <a class="media-button" href="https://github.com/a5768549" target="_blank"><i class="fab fa-github fa-2x"></i>a5768549</a>
+                    <div class="media-button-fill"></div>
+                </div>
+            </div>
+            <p>Email：a57685492011@gmail.com</p>
+            <hr>
+            
+            <p>前端設計：fixiabis</p>
+            <div class="media-button-div">
+                <div style="display: flex; align-items: center; justify-content: center; width: 200px; height: 200px;">
+                    <img src="/image/im-group/02.jpg" width="200">
+                </div>
+                <div class="media-button-container">
+                    <a class="media-button" href="https://twitter.com/fixiabis" target="_blank"><i class="fab fa-twitter fa-2x"></i>fixiabis</a>
+                    <a class="media-button" href="https://www.facebook.com/Fixiabis" target="_blank"><i class="fab fa-facebook fa-2x"></i>fixiabis</a>
+                    <a class="media-button" href="https://github.com/fixiabis" target="_blank"><i class="fab fa-github fa-2x"></i>fixiabis</a>
+                    <a class="media-button" href="https://www.linkedin.com/in/fixiabis/" target="_blank"><i class="fab fa-linkedin fa-2x"></i>fixiabis</a>
+                    <div class="media-button-fill"></div>
+                    <div class="media-button-fill"></div>
+                </div>
+            </div>
+            <p>Email：fixiabis@gmail.com</p>
+            <hr>
+            
+            <p>前端設計：SnowFireWolf</p>
+            <div class="media-button-div">
+                <div style="display: flex; align-items: center; justify-content: center; width: 200px; height: 200px;">
+                    <img src="/image/im-group/03.jpg" width="200">
+                </div>
+                <div class="media-button-container">
+                    <a class="media-button" href="https://twitter.com/SnowFireWolf" target="_blank"><i class="fab fa-twitter fa-2x"></i>SnowFireWolf</a>
+                    <a class="media-button" href="https://www.facebook.com/SnowFireWolf" target="_blank"><i class="fab fa-facebook fa-2x"></i>SnowFireWolf</a>
+                    <a class="media-button" href="https://github.com/SnowFireWolf" target="_blank"><i class="fab fa-github fa-2x"></i>SnowFireWolf</a>
+                    <div class="media-button-fill"></div>
+                    <div class="media-button-fill"></div>
+                </div>
+            </div>
+            <p>Email：snowcupwolf@gmail.com</p>
+            <hr>
+            
+            <p>後端製作：a831123c</p>
+            <div class="media-button-div">
+                <div style="display: flex; align-items: center; justify-content: center; width: 200px; height: 200px;">
+                    <img src="/image/im-group/04.jpg" width="200">
+                </div>
+                <div class="media-button-container">
+                    <a class="media-button" href="https://www.facebook.com/profile.php?id=100001878496480" target="_blank"><i class="fab fa-facebook fa-2x"></i>許家瑋</a>
+                    <a class="media-button" href="https://github.com/a831123c" target="_blank"><i class="fab fa-github fa-2x"></i>a831123c</a>
+                    <div class="media-button-fill"></div>
+                    <div class="media-button-fill"></div>
+                </div>
+            </div>
+            <p>Email：@gmail.com</p>
+            <hr>
+            
+            <p>手機端製作：雪浩</p>
+            <div class="media-button-div">
+                <div style="display: flex; align-items: center; justify-content: center; width: 200px; height: 200px;">
+                    <img src="/image/im-group/05.jpg" width="200">
+                </div>
+                <div class="media-button-container">
+                    <a class="media-button" href="https://line.me/ti/p/~@844wyhgl" target="_blank"><i class="fab fa-line fa-2x"></i>SJ Project</a>
+                    <a class="media-button" href="https://github.com/james10949" target="_blank"><i class="fab fa-github fa-2x"></i>雪浩</a>
+                    <div class="media-button-fill"></div>
+                    <div class="media-button-fill"></div>
+                </div>
+            </div>
+            <p>Email：sijing10949@gmail.com</p>
+        </div>
+    </section>
+    <footer>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#donation">非官方斗內</a>
+                </li>
+                <li>
+                    <a href="#stat-of-2nd-creation">二創聲明</a>
+                </li>
+                <li>
+                    <a href="#about-us">關於我們</a>
+                </li>
+                <li style="color: #444;">
+                    v1.3.6
+                </li>
+            </ul>
+        </nav>
+    </footer>
 </body>
 
 </html>
